@@ -1,0 +1,17 @@
+<div class="lottery-box">
+    <h2>{%= o.lotteryName %}</h2>
+    <button class="start-btn">开始</button>
+    <button class="stop-btn hide">停止</button>
+    <br>
+    <span>中奖人：</span>
+    <textarea id="winners" cols="10" rows="2">
+        {%= o.winners %}
+    </textarea>
+   <div class="lottery-peoples">
+        {% for(var i = 0; i< o.dataArr.length; i++) { %}
+            <span class="lottery-people-item">
+               {%=o.dataArr[i].name%}
+            </span>
+        {% } %}
+   </div>
+</div>

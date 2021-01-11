@@ -1,0 +1,5 @@
+{
+    "port":"7519",
+    "mongoUrl":"mongodb://localhost:27017",
+    "mongoName":"LOTTERY"
+}
