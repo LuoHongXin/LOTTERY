@@ -40,6 +40,7 @@ router.get('/del',async (req,res,next) => {
         id
     } = req.query;
     try {
+        console.log(id);
         let result = await mongo.remove(colName,{_id:id});
         res.send(formatData({
             data:result

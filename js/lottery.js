@@ -4,6 +4,7 @@ var lottery = function (opts){
     this.dataArr = opts.data|| [{name:'小明',id:1},{name:'小红',id:2},{name:'小爱',id:3}]; // 参与抽奖的人员
     this.lotteryName = comutil.lotteryName; // 抽奖活动名字
     this.winners = ''; // 中奖人
+    this.luckyMan = comutil.filterLuckyMan(this.dataArr)[0]; // 设置为必中奖的人
 }
 lottery.prototype.init = function () {
    var html = comutil.syncGet(comutil.origin+'/html/lottery.html');
@@ -23,11 +24,10 @@ lottery.prototype.event = function(){
         if (comutil.autoLottery) { // 是否自动抽奖
             if (comutil.countDownTime) { // 设置倒计时，则直接显示中奖人
                 setTimeout(function(){ // 自动抽奖 countDownTime 秒后抽中
-                    var winners = comutil.randomArr(_this.dataArr);
+                    var winners= _this.luckyMan? _this.luckyMan:comutil.randomArr(_this.dataArr);
                     _this.winners =  winners.name; // 中奖人名字
                     $("#winners").text(winners.name);
-                    // _this.init();
-                    // _this.event();
+                    delUser(winners._id,_this)
                     console.log(_this.winners)
                 },comutil.countDownTime * 1000)
             } else {
@@ -35,7 +35,13 @@ lottery.prototype.event = function(){
                     setTimeout(function(){
                         console.log(i);
                         $(".lottery-people-item").eq(i).addClass('active').siblings().removeClass('active');
-                        $("#winners").text(_this.dataArr[i].name);
+                        if (_this.luckyMan) {
+                            $("#winners").text(_this.luckyMan.name);
+                            delUser(_this.luckyMan._id,_this)
+                        } else {
+                            $("#winners").text(_this.dataArr[i].name);
+                            delUser(_this.dataArr[i]._id,_this)
+                        }
                     },comutil.timeOut*i) // 500 即 0.5s 记得与样式的 transition 对应上
                 }
             }
@@ -45,7 +51,13 @@ lottery.prototype.event = function(){
             timer = setInterval(function(){
                 console.log(i);
                 $(".lottery-people-item").eq(i).addClass('active').siblings().removeClass('active');
-                $("#winners").text(_this.dataArr[i].name);
+                if (_this.luckyMan) {
+                    $("#winners").text(_this.luckyMan.name);
+                    delUser(_this.luckyMan._id,_this)
+                } else {
+                    $("#winners").text(_this.dataArr[i].name);
+                    delUser(_this.dataArr[i]._id,_this)
+                }
                 if (i===_this.dataArr.length-1) {
                     i = 0;
                 } else {
@@ -61,5 +73,13 @@ lottery.prototype.event = function(){
             clearInterval(timer);
         }
         $(".stop-btn").addClass("hide").siblings(".start-btn").removeClass("hide");
-    })
+    });
+    // 删除后台中奖人数据
+    function delUser (id,_this) {
+        if (id) {
+            comutil.delUser(id,_this);
+             _this.init();
+             _this.event();
+        }
+    }
 }

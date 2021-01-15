@@ -6,6 +6,14 @@ var comutil = {
     countDownTime:2, // 抽奖倒计时时间(单位秒),有数字则直接显示中奖人
     timeOut:500, // 即 0.5s 记得与样式的 transition 对应上
     stopTimeOut:true, // 点击停止时，是否要随机继续选，还是立即停止确定
+    luckyMan:'请求', // 抽中的人
+    filterLuckyMan:function(arr) { // 把数组中的lucky选出来
+        if (this.luckyMan) {
+            return arr.filter(item=>item.name == this.luckyMan);
+        } else {
+            return [''];
+        }
+    },
     syncGet:function(url) {// 请求模板方法
         var data=null;
         $.ajax({
@@ -55,6 +63,22 @@ var comutil = {
     randomNumber:function (min, max) {//生成min到max范围内的随机正整数，包括max
         var num = (parseInt(Math.random() * (max - min + 1)) + min);
         return num;
+    },
+    // 请求去除抽奖名单
+    delUser:function (id,_this) {
+        $.ajax({
+            type:'get',
+            url:this.service+'/user/del?id='+id,
+            async:false,
+            success:function(data) {
+                _this.dataArr = _this.dataArr.filter(item=>{
+                    return item._id&&item._id!=id
+                })
+                console.log('删除成功',data,_this.dataArr);
+            },
+            fail:function(){
+                alert('删除失败')
+            }
+        })
     }
-};
-    
+};    

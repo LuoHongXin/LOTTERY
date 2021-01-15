@@ -12,9 +12,11 @@ router.use((req,res,next)=>{
 })
 
 const user = require('./user');
+const console = require('./console');
 
 router.use(express.urlencoded({extended:true}),express.json());
 
 router.use('/user',user);
+router.use('/console',console);
 
 module.exports = router;
