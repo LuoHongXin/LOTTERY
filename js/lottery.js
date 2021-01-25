@@ -1,12 +1,16 @@
 var lottery = function (opts){
+    comutil.updateComutil(); // 根据后端的comutil更新本地的comutil
     this.$el = opts.$ele||$("body");
     this.index = opts.index || ''; // 区别的key
     this.dataArr = opts.data|| [{name:'小明',id:1},{name:'小红',id:2},{name:'小爱',id:3}]; // 参与抽奖的人员
-    this.lotteryName = comutil.lotteryName; // 抽奖活动名字
     this.winners = ''; // 中奖人
+    this.lotteryName = comutil.lotteryName; // 抽奖活动名字
     this.luckyMan = comutil.filterLuckyMan(this.dataArr)[0]; // 设置为必中奖的人
 }
 lottery.prototype.init = function () {
+    comutil.updateComutil();
+    this.lotteryName = comutil.lotteryName; // 抽奖活动名字
+    this.luckyMan = comutil.filterLuckyMan(this.dataArr)[0]; // 设置为必中奖的人
    var html = comutil.syncGet(comutil.origin+'/html/lottery.html');
    var lotteryBox = $(".lottery-box");
    if(lotteryBox[0]) {

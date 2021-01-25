@@ -4,12 +4,14 @@
   "description": "抽奖平台",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env aa=1 supervisor serve"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "compression": "^1.7.4",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1"
   }
 }

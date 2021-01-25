@@ -3,7 +3,7 @@ const router = express.Router();
 const {formatData} = require('../utils');
 const fs = require('fs');
 const path = require('path');
-
+const {ws} = require('../websocket');
 // 读取backendComutil文件中的配置对像返回给前台
 router.get('/readConsole',async (req,res,next)=>{
     try {
@@ -41,7 +41,12 @@ router.post('/update',async (req,res,next)=>{
     data = JSON.stringify(data);
     fs.writeFile(path.resolve(__dirname,'../backendComutil.json'),data,'utf-8',(err,data2)=>{
         if(err) {res.send(formatData({msg:err}))}
-        else {res.send(formatData({data:data2,msg:'修改成功'}))}
+        else {
+            ws.clients.forEach(item => {
+                item.send('updateSuccess')
+            })
+            res.send(formatData({data:data2,msg:'修改成功'}))
+        }
     })
     
 })

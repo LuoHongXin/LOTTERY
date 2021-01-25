@@ -1,6 +1,7 @@
 var comutil = {
     origin:location.origin,//当前页面路径的origin
     service:'http://localhost:7519',//服务器地址
+    wsservice:'localhost:7519',//websocket服务器地址
     lotteryName:'罗小呆抽奖平台', // 抽奖平台名字
     autoLottery:true, // 是否自动抽奖
     countDownTime:2, // 抽奖倒计时时间(单位秒),有数字则直接显示中奖人
@@ -78,6 +79,22 @@ var comutil = {
             },
             fail:function(){
                 alert('删除失败')
+            }
+        })
+    },
+    // 根据后端的backendComutil替换当前comutil部分属性
+    updateComutil:function () {
+        $.ajax({
+            type:'get',
+            url:comutil.service+'/console/readConsole',
+            async:false,
+            success:function(res){
+                const data = res.data;
+                if (res.code == 1) {
+                    comutil = Object.assign(comutil,data);
+                } else {
+                    alert(res.code+'/n'+res.msg)
+                }
             }
         })
     }
