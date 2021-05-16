@@ -45,7 +45,9 @@ var globalmodule = {};
         ws.onmessage = function(evt) {
             console.log( "Received Message: " + evt.data);
             if (evt.data == 'updateSuccess') {
+                globalmodule.lottery.first = true;
                 globalmodule.lottery.init();
+                globalmodule.lottery.event();
             }
             heartCheck.reset().start();      //拿到任何消息都说明当前连接是正常的
         };

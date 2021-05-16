@@ -25,8 +25,8 @@ $(function(){
                 const data = res.data;
                 if (res.code == 1) {
                     $("#lotteryName").val(data.lotteryName)
-                    $("#autoLottery").bootstrapSwitch('state',data.autoLottery);
-                    $("#stopTimeOut").bootstrapSwitch('state',data.stopTimeOut);
+                    $("#autoLottery").bootstrapSwitch('state',JSON.parse(data.autoLottery));
+                    $("#stopTimeOut").bootstrapSwitch('state',JSON.parse(data.stopTimeOut));
                     $("#countDownTime").val(data.countDownTime)
                     $("#timeOut").val(data.timeOut)
                     $("#luckyMan").val(data.luckyMan)

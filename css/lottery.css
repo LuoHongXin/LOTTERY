@@ -7,6 +7,17 @@
   display: none !important;
 }
 
+.lottery-box {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  padding: 20vh 30vw;
+  box-sizing: border-box;
+}
+
 .lottery-box .lottery-people-item {
   color: black;
   transition: .5s;
